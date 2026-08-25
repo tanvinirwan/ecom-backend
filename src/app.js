@@ -4,6 +4,9 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 
+const authRouter = require("./routes/auth.route");
+const { notFound, errorHandler } = require("./middlewares/apiResponse");
+
 const app = express();
 
 app.use(express.json());
@@ -19,23 +22,10 @@ app.use(
 app.use(cookieParser());
 app.use(mongoSanitize());
 
+// Auth routes
+app.use("/api/v1/auth", authRouter);
 
-// Health API
-// app.get("/api/v1/health", (req, res) => {
-//     res.status(200).json({
-//         statusCode: 200,
-//         data: {
-//             service: "ecom-backend",
-//             env: process.env.NODE_ENV,
-//             uptimeSeconds: Math.round(process.uptime()),
-//             timestamp: new Date().toISOString(),
-//         },
-//         message: "API is running",
-//     });
-// });
-
-
-// Test error API
+// Test API
 app.get("/api/v1/boom", async (req, res, next) => {
     try {
         throw new Error("This error was thrown on purpose to test error handling");
@@ -44,5 +34,8 @@ app.get("/api/v1/boom", async (req, res, next) => {
     }
 });
 
+// Error handling should come LAST
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;

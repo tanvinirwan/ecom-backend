@@ -4,4 +4,6 @@ const apiResponse = (statusCode,data=null,message="") => ({
     statusCode,
     message,
     data
-})
+});
+
+module.exports = apiResponse ;
