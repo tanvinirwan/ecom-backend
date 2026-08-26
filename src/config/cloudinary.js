@@ -1,0 +1,5 @@
+const isCloudinaryConfigured = () => {
+    Boolean(
+        
+    )
+}

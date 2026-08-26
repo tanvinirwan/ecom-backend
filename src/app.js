@@ -2,10 +2,11 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const mongoSanitize = require("express-mongo-sanitize");
+// const mongoSanitize = require("express-mongo-sanitize");
 
 const authRouter = require("./routes/auth.route");
-const { notFound, errorHandler } = require("./middlewares/apiResponse");
+const userRouter = require("./routes/user.route");
+const notFound = require("./middlewares/notFound.middleware");
 
 const app = express();
 
@@ -20,11 +21,11 @@ app.use(
 );
 
 app.use(cookieParser());
-app.use(mongoSanitize());
+// app.use(mongoSanitize());
 
 // Auth routes
 app.use("/api/v1/auth", authRouter);
-
+app.use("/api/v1/user",userRouter) ;
 // Test API
 app.get("/api/v1/boom", async (req, res, next) => {
     try {
@@ -36,6 +37,6 @@ app.get("/api/v1/boom", async (req, res, next) => {
 
 // Error handling should come LAST
 app.use(notFound);
-app.use(errorHandler);
+// app.use(errorHandler);
 
 module.exports = app;
