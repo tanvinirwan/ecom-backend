@@ -32,7 +32,7 @@ const accessCookieOptions = () => ({
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    path: "/api/v1/auth",
+    path: "/api/v1",
     maxAge: 15 * 60 * 1000
 });
 

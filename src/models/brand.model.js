@@ -7,5 +7,12 @@ const brandSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true },
 });
 
+brandSchema.pre("validate", function () {
+
+    if (this.isModified("name") || !this.slug) {
+        this.slug = convertToSlug(this.name);
+    }
+});
+
 const Brand = mongoose.model("Brand", brandSchema);
 module.exports = Brand;

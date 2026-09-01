@@ -2,14 +2,16 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+
 // const mongoSanitize = require("express-mongo-sanitize");
 
 const authRouter = require("./routes/auth.route");
 const userRouter = require("./routes/user.route");
 const notFound = require("./middlewares/notFound.middleware");
+const categoryRouter = require('./modules/category/category.route')
 
 const app = express();
-
+app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
 
@@ -20,12 +22,13 @@ app.use(
     })
 );
 
-app.use(cookieParser());
 // app.use(mongoSanitize());
 
 // Auth routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user",userRouter) ;
+app.use("/api/v1/categories",categoryRouter) ;
+app.use("/api/v1/brands",brandRouter) ;
 // Test API
 app.get("/api/v1/boom", async (req, res, next) => {
     try {
